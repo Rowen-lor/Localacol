@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hans" data-theme="dark">
+<html lang="zh-Hans" data-theme="light">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,9 +10,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
 /* ============================================================
-   DESIGN TOKENS — mirror the AITP app (dark = default)
+   DESIGN TOKENS — mirror the AITP app (light = default)
    ============================================================ */
 :root {
+  --aitp-bg: #ffffff;
+  --aitp-surface: #ffffff;
+  --aitp-surface-soft: #fafafa;
+  --aitp-line: #ebebeb;
+  --aitp-text: #171717;
+  --aitp-text-soft: #4d4d4d;
+  --aitp-muted: #888888;
+  --aitp-faint: #a1a1a1;
+  --aitp-accent: #171717;        /* primary accent inverts to near-black */
+  --aitp-accent-text: #ffffff;
+  --aitp-accent-2: #0070f3;      /* secondary accent = blue in light mode */
+  --aitp-accent-2-soft: rgba(0,112,243,.08);
+  --aitp-accent-2-line: rgba(0,112,243,.35);
+  --aitp-success: #0070f3;
+  --aitp-success-shadow: rgba(0,112,243,.35);
+  --aitp-nav-bg: rgba(255, 255, 255, 0.78);
+  --aitp-hairline: linear-gradient(90deg, #007cf0, #00dfd8, #7928ca, #ff0080, #f9cb28);
+  --aitp-radius: 8px;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+
+/* Dark theme — mirrors the app's [data-theme="dark"] palette */
+:root[data-theme="dark"] {
   --aitp-bg: #07080a;
   --aitp-surface: #0d0d0d;
   --aitp-surface-soft: #121212;
@@ -33,28 +57,6 @@
   --aitp-radius: 8px;
   --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
   color-scheme: dark;
-}
-
-/* Light theme — mirrors the app's [data-theme="light"] palette */
-:root[data-theme="light"] {
-  --aitp-bg: #ffffff;
-  --aitp-surface: #ffffff;
-  --aitp-surface-soft: #fafafa;
-  --aitp-line: #ebebeb;
-  --aitp-text: #171717;
-  --aitp-text-soft: #4d4d4d;
-  --aitp-muted: #888888;
-  --aitp-faint: #a1a1a1;
-  --aitp-accent: #171717;        /* primary accent inverts to near-black */
-  --aitp-accent-text: #ffffff;
-  --aitp-accent-2: #0070f3;      /* secondary accent = blue in light mode */
-  --aitp-accent-2-soft: rgba(0,112,243,.08);
-  --aitp-accent-2-line: rgba(0,112,243,.35);
-  --aitp-success: #0070f3;
-  --aitp-success-shadow: rgba(0,112,243,.35);
-  --aitp-nav-bg: rgba(255, 255, 255, 0.78);
-  --aitp-hairline: linear-gradient(90deg, #007cf0, #00dfd8, #7928ca, #ff0080, #f9cb28);
-  color-scheme: light;
 }
 
 /* ============================================================
@@ -120,11 +122,11 @@ button { font-family: inherit; cursor: pointer; }
   transition: color .18s ease, border-color .18s ease, background .18s ease;
 }
 .theme-toggle:hover { color: var(--aitp-text); border-color: var(--aitp-faint); background: var(--aitp-surface-soft); }
-/* show sun in dark mode (click -> go light), moon in light mode */
-.theme-toggle .i-moon { display: none; }
-.theme-toggle .i-sun { display: block; }
-:root[data-theme="light"] .theme-toggle .i-moon { display: block; }
-:root[data-theme="light"] .theme-toggle .i-sun { display: none; }
+/* show moon in light mode (click -> go dark), sun in dark mode */
+.theme-toggle .i-moon { display: block; }
+.theme-toggle .i-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .i-moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .i-sun { display: block; }
 
 /* ============================================================
    2. HERO (side-by-side: pitch left, demo right)
@@ -171,7 +173,6 @@ button { font-family: inherit; cursor: pointer; }
 }
 .input-shell textarea::placeholder { color: var(--aitp-faint); }
 .input-shell textarea:focus { outline: none; }
-.input-shell .load-btn { align-self: stretch; white-space: nowrap; padding: 8px 16px; }
 .hero-hint { font-size: 12px; color: var(--aitp-faint); margin: 14px 0 12px; }
 
 /* Example chips */
@@ -250,11 +251,6 @@ button { font-family: inherit; cursor: pointer; }
 /* row entrance animation */
 .trow.enter { opacity: 0; transform: translateY(10px); }
 .trow.enter.in { opacity: 1; transform: translateY(0); transition: opacity .45s cubic-bezier(.16,1,.3,1), transform .45s cubic-bezier(.16,1,.3,1); }
-
-/* empty state */
-.empty {
-  padding: 40px 16px; text-align: center; color: var(--aitp-faint); font-size: 13px;
-}
 
 /* placeholder pill highlight (e.g. {0}) */
 .ph {
@@ -366,7 +362,6 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 520px) {
   .hero { padding: 64px 0 30px; }
   .input-shell { flex-direction: column; }
-  .input-shell .load-btn { align-self: stretch; }
   .trow { grid-template-columns: 34px 1fr 1fr 140px; }
   .tbody .cell { padding: 11px 10px; font-size: 12px; }
   .thead .cell { padding: 9px 10px; }
@@ -471,9 +466,10 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 11px; color: var(--aitp-text-soft); border: 1px solid var(--aitp-line);
   border-radius: 999px; padding: 4px 10px; background: var(--aitp-surface-soft);
 }
+.mock-more { font-size: 11px; color: var(--aitp-muted); text-align: center; margin-top: 10px; }
 
 .gloss-table { border: 1px solid var(--aitp-line); border-radius: var(--aitp-radius); overflow: hidden; background: var(--aitp-surface); }
-.grow { display: grid; grid-template-columns: .9fr 1.1fr 1fr 1fr; border-bottom: 1px solid var(--aitp-line); }
+.grow { display: grid; grid-template-columns: .9fr 1.1fr 1fr 1fr; border-bottom: 1px solid var(--aitp-line); transition: background .15s ease; }
 .grow:last-child { border-bottom: none; }
 .grow > div { padding: 9px 12px; font-size: 12.5px; line-height: 1.5; min-width: 0; }
 .grow > div + div { border-left: 1px solid var(--aitp-line); }
@@ -481,6 +477,7 @@ button { font-family: inherit; cursor: pointer; }
 .grow .g-term, .grow .g-tgt { color: var(--aitp-text-soft); }
 .grow.thead { background: var(--aitp-surface-soft); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--aitp-faint); }
 .grow.thead > div { padding: 8px 12px; }
+.gloss-table .grow:not(.thead):hover { background: var(--aitp-surface-soft); }
 
 .diff { display: grid; gap: 8px; }
 .diff-line {
@@ -505,8 +502,14 @@ button { font-family: inherit; cursor: pointer; }
 #review-badge[data-state="ignored"] { color: var(--aitp-muted); }
 .mock-btn:disabled { opacity: .45; cursor: not-allowed; }
 
-.langcloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.langcloud-wrap { overflow: hidden; }
+.langcloud {
+  display: flex; flex-wrap: nowrap; width: max-content; gap: 8px;
+  animation: langslide 30s linear infinite;
+}
+.langcloud:hover { animation-play-state: paused; }
 .langcloud .pill { padding: 5px 12px; font-size: 12px; }
+@keyframes langslide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .cloud-note { margin-top: 14px; font-size: 12.5px; color: var(--aitp-muted); }
 .cloud-note b { color: var(--aitp-text-soft); font-weight: 600; }
 
@@ -574,10 +577,9 @@ button { font-family: inherit; cursor: pointer; }
         <!-- hero input -->
         <div class="hero-input-wrap reveal">
           <div class="input-shell">
-            <textarea id="src-input" rows="1" placeholder="输入一句游戏文案，或点击下方示例…" aria-label="源文输入"></textarea>
-            <button class="btn btn-primary load-btn" id="load-btn">载入 →</button>
+            <textarea id="src-input" rows="1" placeholder="输入源文…" aria-label="源文输入"></textarea>
           </div>
-          <p class="hero-hint">输入一句游戏文案，或点击下方示例 · 按 Enter 快速载入</p>
+          <p class="hero-hint">输入源文，或点击下方示例 · 按 Enter 载入</p>
           <!-- example chips -->
           <div class="chips" id="chips"></div>
         </div>
@@ -607,9 +609,7 @@ button { font-family: inherit; cursor: pointer; }
             <div class="cell">译文</div>
             <div class="cell">术语</div>
           </div>
-          <div class="tbody" id="tbody">
-            <div class="empty" id="empty">点击左侧示例或输入文案，把行载入到这里 →</div>
-          </div>
+          <div class="tbody" id="tbody"></div>
         </div>
 
         <!-- run -->
@@ -647,7 +647,7 @@ button { font-family: inherit; cursor: pointer; }
         <div class="mock">
           <div class="mock-head">
             <span class="mock-title">项目 · 装备与技能_zh.xlsx</span>
-            <span class="mock-tag">3/3 语言运行中</span>
+            <span class="mock-tag">5+ 语言运行中</span>
           </div>
           <div class="mock-job">
             <span class="mj-name">EN · 2,418 行</span>
@@ -656,11 +656,21 @@ button { font-family: inherit; cursor: pointer; }
           </div>
           <div class="mock-job">
             <span class="mj-name">JA · 2,418 行</span>
+            <div class="mock-bar"><div class="mock-fill done w-100"></div></div>
+            <span class="mj-pct">100%</span>
+          </div>
+          <div class="mock-job">
+            <span class="mj-name">KO · 2,418 行</span>
             <div class="mock-bar"><div class="mock-fill w-72"></div></div>
             <span class="mj-pct">72%</span>
           </div>
           <div class="mock-job">
-            <span class="mj-name">KO · 2,418 行</span>
+            <span class="mj-name">VI · 2,418 行</span>
+            <div class="mock-bar"><div class="mock-fill idle w-46"></div></div>
+            <span class="mj-pct">46%</span>
+          </div>
+          <div class="mock-job">
+            <span class="mj-name">TH · 2,418 行</span>
             <div class="mock-bar"><div class="mock-fill idle w-46"></div></div>
             <span class="mj-pct">46%</span>
           </div>
@@ -669,6 +679,7 @@ button { font-family: inherit; cursor: pointer; }
             <span class="mock-tag2">断点续跑</span>
             <span class="mock-tag2">一键导出 xlsx</span>
           </div>
+          <div class="mock-more">… 其余 15 种语言</div>
         </div>
       </div>
     </div>
@@ -763,27 +774,49 @@ button { font-family: inherit; cursor: pointer; }
         </ul>
       </div>
       <div class="cap-media">
-        <div class="langcloud">
-          <span class="pill">繁体中文</span>
-          <span class="pill">简体中文</span>
-          <span class="pill">英语</span>
-          <span class="pill">日语</span>
-          <span class="pill">韩语</span>
-          <span class="pill">越南语</span>
-          <span class="pill">泰语</span>
-          <span class="pill">阿拉伯语</span>
-          <span class="pill">德语</span>
-          <span class="pill">西班牙语</span>
-          <span class="pill">法语</span>
-          <span class="pill">印尼语</span>
-          <span class="pill">意大利语</span>
-          <span class="pill">马来语</span>
-          <span class="pill">荷兰语</span>
-          <span class="pill">波兰语</span>
-          <span class="pill">巴西葡语</span>
-          <span class="pill">俄语</span>
-          <span class="pill">土耳其语</span>
-          <span class="pill">菲律宾语</span>
+        <div class="langcloud-wrap">
+          <div class="langcloud">
+            <span class="pill">繁体中文</span>
+            <span class="pill">简体中文</span>
+            <span class="pill">英语</span>
+            <span class="pill">日语</span>
+            <span class="pill">韩语</span>
+            <span class="pill">越南语</span>
+            <span class="pill">泰语</span>
+            <span class="pill">阿拉伯语</span>
+            <span class="pill">德语</span>
+            <span class="pill">西班牙语</span>
+            <span class="pill">法语</span>
+            <span class="pill">印尼语</span>
+            <span class="pill">意大利语</span>
+            <span class="pill">马来语</span>
+            <span class="pill">荷兰语</span>
+            <span class="pill">波兰语</span>
+            <span class="pill">巴西葡语</span>
+            <span class="pill">俄语</span>
+            <span class="pill">土耳其语</span>
+            <span class="pill">菲律宾语</span>
+            <span class="pill">繁体中文</span>
+            <span class="pill">简体中文</span>
+            <span class="pill">英语</span>
+            <span class="pill">日语</span>
+            <span class="pill">韩语</span>
+            <span class="pill">越南语</span>
+            <span class="pill">泰语</span>
+            <span class="pill">阿拉伯语</span>
+            <span class="pill">德语</span>
+            <span class="pill">西班牙语</span>
+            <span class="pill">法语</span>
+            <span class="pill">印尼语</span>
+            <span class="pill">意大利语</span>
+            <span class="pill">马来语</span>
+            <span class="pill">荷兰语</span>
+            <span class="pill">波兰语</span>
+            <span class="pill">巴西葡语</span>
+            <span class="pill">俄语</span>
+            <span class="pill">土耳其语</span>
+            <span class="pill">菲律宾语</span>
+          </div>
         </div>
         <p class="cloud-note">一次翻译，<b>20 种</b>目标语言同时覆盖 · 并发出稿，同一批次交付</p>
       </div>
@@ -938,9 +971,6 @@ const CHIPS = [
   "7品·霜魂结晶"
 ];
 
-/* Seed rows so the demo looks full on first load */
-const SEED = ["传说级·龙鳞护甲", "获得 {0} 枚金币", "欢迎回来，冒险者！"];
-
 /* ============================================================
    STATE
    ============================================================ */
@@ -955,7 +985,6 @@ const LANG_NAMES = { en: "EN", ja: "日本語", ko: "한국어" };
    ============================================================ */
 const $ = (s) => document.querySelector(s);
 const tbody = $("#tbody");
-const empty = $("#empty");
 const input = $("#src-input");
 const statusEl = $("#status");
 const statusText = $("#status-text");
@@ -996,12 +1025,20 @@ function renderTable(animateFrom = null) {
   // clear
   tbody.innerHTML = "";
   if (rows.length === 0) {
-    tbody.appendChild(empty);
-    empty.style.display = "";
+    // three blank placeholder rows (visual only, never added to rows)
+    for (let n = 1; n <= 3; n++) {
+      const ph = document.createElement("div");
+      ph.className = "trow";
+      ph.innerHTML =
+        '<div class="cell idx">' + String(n).padStart(2, "0") + '</div>' +
+        '<div class="cell src"><span class="none">—</span></div>' +
+        '<div class="cell tgt"><span class="none">—</span></div>' +
+        '<div class="cell term"><span class="none">—</span></div>';
+      tbody.appendChild(ph);
+    }
     updateMeta();
     return;
   }
-  empty.style.display = "none";
 
   rows.forEach((r, i) => {
     const row = document.createElement("div");
@@ -1119,27 +1156,40 @@ function runTranslation() {
 }
 
 /* ============================================================
-   LANGUAGE SELECTION (single-select pills)
+   LANGUAGE SELECTION (single-select pills + auto-carousel)
    ============================================================ */
+const LANGS = ["en", "ja", "ko"];
+let langTimer = null;
+
+function applyLang(lang) {
+  document.querySelectorAll(".lang-group .pill").forEach((p) => p.classList.remove("active"));
+  const pill = document.querySelector('.lang-group .pill[data-lang="' + lang + '"]');
+  if (pill) pill.classList.add("active");
+  currentLang = lang;
+  renderTable(); // re-render tgt cells + term cells for the new target language
+  setStatus("idle", "已切换到 " + LANG_NAMES[currentLang]);
+}
+
+function startLangCarousel() {
+  if (prefersReduced || langTimer !== null) return;
+  langTimer = setInterval(() => {
+    if (running) return; // never auto-advance mid-run
+    const idx = LANGS.indexOf(currentLang);
+    applyLang(LANGS[(idx + 1) % LANGS.length]);
+  }, 3000);
+}
+
 document.querySelectorAll(".lang-group .pill").forEach((pill) => {
   pill.addEventListener("click", () => {
-    document.querySelectorAll(".lang-group .pill").forEach((p) => p.classList.remove("active"));
-    pill.classList.add("active");
-    currentLang = pill.dataset.lang;
-    renderTable(); // re-render tgt cells + term cells for the new target language
-    setStatus("idle", "已切换到 " + LANG_NAMES[currentLang]);
+    if (langTimer !== null) { clearInterval(langTimer); langTimer = null; }
+    applyLang(pill.dataset.lang);
+    startLangCarousel(); // restart the auto-advance timer
   });
 });
 
 /* ============================================================
-   HERO INPUT: load button + Enter to submit
+   HERO INPUT: Enter to submit
    ============================================================ */
-$("#load-btn").addEventListener("click", () => {
-  addRow(input.value);
-  input.value = "";
-  autoGrow();
-  input.focus();
-});
 input.addEventListener("keydown", (e) => {
   // Enter (no shift) loads the row
   if (e.key === "Enter" && !e.shiftKey) {
@@ -1177,7 +1227,7 @@ $("#run-btn").addEventListener("click", runTranslation);
 $("#clear-btn").addEventListener("click", clearRows);
 
 /* ============================================================
-   THEME TOGGLE (dark default, persisted in localStorage)
+   THEME TOGGLE (light default, persisted in localStorage)
    ============================================================ */
 (function initTheme() {
   const root = document.documentElement;
@@ -1269,14 +1319,13 @@ function initReviewMock() {
 }
 
 /* ============================================================
-   INIT: seed the table + reveal hero immediately
+   INIT: render table + reveal hero immediately
    ============================================================ */
 (function init() {
-  // seed rows (no entrance animation on first paint, they just appear)
-  SEED.forEach((s) => rows.push({ id: ++rowSeq, src: s }));
   renderTable();
   updateMeta();
   autoGrow();
+  startLangCarousel();
   initReviewMock();
 })();
 </script>
